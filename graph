@@ -1,0 +1,19 @@
+digraph G {
+	graph [rankdir=LR]
+	E -> H [label=1 color=green dir=both]
+	H -> G [label=1 color=green dir=both]
+	G -> D [label=3 color=green dir=both]
+	D -> A [label=3 color=green dir=both]
+	A -> B [label=2 color=black dir=both]
+	B -> D [label=2 color=black dir=both]
+	B -> E [label=8 color=black dir=both]
+	B -> F [label=10 color=black dir=both]
+	B -> C [label=7 color=black dir=both]
+	C -> F [label=1 color=black dir=both]
+	D -> E [label=7 color=black dir=both]
+	E -> F [label=3 color=black dir=both]
+	E -> G [label=6 color=black dir=both]
+	F -> H [label=5 color=black dir=both]
+	I -> J [label=3 color=black dir=both]
+	label="Najkrótsza droga z A do E wynosi 8 i jest ona postaci: A-D-G-H-E"
+}
