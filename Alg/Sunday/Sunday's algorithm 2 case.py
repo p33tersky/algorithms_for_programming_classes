@@ -41,14 +41,21 @@ def naiveAlg(T,W):
     for p in range(len(T)-len(W)+1):
         matches_at(T,p,W, True)
         
+def signsDict(W):
+    lastp = dict()
+    for i, char in enumerate(W):
+        lastp[char] = i
+    return lastp
+    
 
 def sundayAlg(T,W):
     p=0
+    lasZsDict = signsDict(W)
     while p < len(T)-len(W)+1:
         matches_at(T,p,W,False)
         if p+len(W) < len(T):
             z = T[p+len(W)]
-            lastZInW = W.rfind(z)
+            lastZInW = lasZsDict.get(z,-1)
             if lastZInW == -1:
                 p+=len(W)+1
             else:
@@ -58,7 +65,7 @@ def sundayAlg(T,W):
 A = list(string.ascii_lowercase)
 W = ''
 T = ''
-for j in range(1000):
+for j in range(10000):
         T+=random.choice(A)
 
 Xn = []

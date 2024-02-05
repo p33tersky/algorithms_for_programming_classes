@@ -1,5 +1,4 @@
 import graphviz
-points = ['A', 'B', 'C', 'D', 'E','F','G','H', 'I', 'J']
 
 graph = { 'A': [['B',2], ['D',3]], 
          'B': [['A',2], ['D',2],['E',8],['F',10],['C',7]],
@@ -10,16 +9,16 @@ graph = { 'A': [['B',2], ['D',3]],
          'G': [['E',6], ['D',3], ['H',1]],
          'H': [['G',1], ['E',1], ['F',5]],
          'I': [['J',3]],
-         'J': [['I',3]],
-         
+         'J': [['I',3]]
          }
 
+# points = graph.keys()
 ## punkt , czy odwiedzony? , waga , poprzednik
-def starterTable(points):
-    starter = {letter: [False, float('inf'), '-'] for letter in points}
+def starterTable(nodes):
+    starter = {letter: [False, float('inf'), '-'] for letter in nodes}
     return starter
 
-table = starterTable(points)
+table = starterTable(graph.keys())
 
 def markGivenPointAsExplored(point):
     table[point][0] = True
@@ -98,6 +97,7 @@ def all_conns_greenOrBlack(data, path):
     cons = all_conns(data, path)
     for i in range(len(cons)):
         if i < len(path)-1:
+            # print([cons[i][0],cons[i][1],cons[i][2],True])
             result.append([cons[i][0],cons[i][1],cons[i][2],True])
         else:
             result.append([cons[i][0],cons[i][1],cons[i][2],False])
@@ -105,13 +105,14 @@ def all_conns_greenOrBlack(data, path):
 
 def draw_graph(data, path, info):
     conns = all_conns_greenOrBlack(data, path)
+    
     dot = graphviz.Digraph('G', filename='graph', format='pdf', graph_attr={'rankdir': 'LR'})
     for conn in conns:
         if conn[3] == True :
             color = 'green'
         else:
             color = 'black'
-        dot.edge(conn[0],conn[1],label=str(conn[2]),dir='both',color = color)
+        dot.edge(conn[0],conn[1],label=str(conn[2]),dir='none',color = color)
     dot.attr(label=info)
     dot.render('graph', format='png', cleanup=True)
     dot.view('graph')
@@ -129,14 +130,14 @@ def returnShortestWayBetweenGivenPoints(startPoint, endPoint):
         while predecessor != startPoint :
             predecessor = table[predecessor][2]
             predecessors.append(predecessor)
-            message = f"Najkrótsza droga z {startPoint} do {endPoint} wynosi {table[endPoint][1]} i jest ona postaci: {'-'.join(predecessors[::-1])}"
-            draw_graph(graph,predecessors, message)
+        message = f"Najkrótsza droga z {startPoint} do {endPoint} wynosi {table[endPoint][1]} i jest ona postaci: {'-'.join(predecessors[::-1])}"
+        draw_graph(graph,predecessors, message)
     
 
-returnShortestWayBetweenGivenPoints('A','E')
-# returnShortestWayBetweenGivenPoints('C','G')
+# returnShortestWayBetweenGivenPoints('A','E')
+returnShortestWayBetweenGivenPoints('C','G')
 # returnShortestWayBetweenGivenPoints('C','J')
-# returnShortestWayBetweenGivenPoints('I','J')
+# returnShortestWayBetweenGivenPoints('J','I')
 
 
 
